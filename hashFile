@@ -1,0 +1,32 @@
+# This is a PS script to hash a file
+# By entring the file's path and pick the hash algorithm
+# Function to calculate file hash
+function Calculate-FileHash {
+    param (
+        [string]$FilePath,
+        [string]$HashAlgorithm
+    )
+    
+    try {
+        $hash = Get-FileHash -Path $FilePath -Algorithm $HashAlgorithm
+        Write-Host "Hash value ($HashAlgorithm): $($hash.Hash)"
+    }
+    catch {
+        Write-Host "Error calculating hash: $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+# Prompt the user to select a file
+$FilePath = Read-Host "Enter the path to the file you want to hash"
+
+# Check if the file exists
+if (Test-Path $FilePath -PathType Leaf) {
+    # Prompt the user to select a hash algorithm
+    $HashAlgorithm = Read-Host "Choose a hash algorithm (e.g., MD5, SHA256)"
+    
+    # Call the function to calculate the file hash
+    Calculate-FileHash -FilePath $FilePath -HashAlgorithm $HashAlgorithm
+}
+else {
+    Write-Host "File not found at $FilePath" -ForegroundColor Red
+}
