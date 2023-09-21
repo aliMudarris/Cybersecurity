@@ -1,6 +1,12 @@
 # This is a PS script to hash a file
 # By entring the file's path and pick the hash algorithm
 # Copy and paste the script to a notepad file and save it as hashFile.ps1
+
+#Ask the user if they would like to generate a hash for a file 
+$msg = 'Do you want to hash a file? [Y/N]'
+do {
+    $response = Read-Host -Prompt $msg
+    if ($response -eq 'y') {
 # Function to calculate file hash
 function Calculate-FileHash {
     param (
@@ -32,6 +38,5 @@ else {
     Write-Host "File not found at $FilePath" -ForegroundColor Red
 }
 
-# Promt the user to perss enter to exit
-Write-Host "End of script" -ForegroundColor Green
-Read-Host -Prompt "Press Enter to exit!"
+    }
+} until ($response -eq 'n')
